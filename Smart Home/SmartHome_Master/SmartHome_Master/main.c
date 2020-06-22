@@ -65,6 +65,7 @@ int main(void)
 	
 	_delay_ms(1000);
 	UART_Init();
+	SPI_Init();
 	sei();
     while (1) 
     {
