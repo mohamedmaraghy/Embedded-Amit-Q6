@@ -1,0 +1,162 @@
+
+SmartHome_Slave.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000c4  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000118  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000118  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000148  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000048  00000000  00000000  00000184  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006d9  00000000  00000000  000001cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000601  00000000  00000000  000008a5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000034b  00000000  00000000  00000ea6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000058  00000000  00000000  000011f4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000349  00000000  00000000  0000124c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000048  00000000  00000000  00001595  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000015dd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 60 00 	jmp	0xc0	; 0xc0 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+#include "SPI.h"
+#define F_CPU 16000000
+#include <util/delay.h>
+int main(void)
+{
+	SPI_Init();
+  6c:	0e 94 58 00 	call	0xb0	; 0xb0 <SPI_Init>
+	SET_BIT(DDRC,0);
+  70:	a0 9a       	sbi	0x14, 0	; 20
+	SET_BIT(DDRC,1);
+  72:	a1 9a       	sbi	0x14, 1	; 20
+    /* Replace with your application code */
+    while (1) 
+    { unsigned char Recivedbyte =SPI_Recive();
+  74:	0e 94 5c 00 	call	0xb8	; 0xb8 <SPI_Recive>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  78:	2f ef       	ldi	r18, 0xFF	; 255
+  7a:	33 ed       	ldi	r19, 0xD3	; 211
+  7c:	90 e3       	ldi	r25, 0x30	; 48
+  7e:	21 50       	subi	r18, 0x01	; 1
+  80:	30 40       	sbci	r19, 0x00	; 0
+  82:	90 40       	sbci	r25, 0x00	; 0
+  84:	e1 f7       	brne	.-8      	; 0x7e <main+0x12>
+  86:	00 c0       	rjmp	.+0      	; 0x88 <main+0x1c>
+  88:	00 00       	nop
+		_delay_ms(1000);
+		switch(Recivedbyte){
+  8a:	82 34       	cpi	r24, 0x42	; 66
+  8c:	59 f0       	breq	.+22     	; 0xa4 <main+0x38>
+  8e:	18 f4       	brcc	.+6      	; 0x96 <main+0x2a>
+  90:	81 34       	cpi	r24, 0x41	; 65
+  92:	31 f0       	breq	.+12     	; 0xa0 <main+0x34>
+  94:	ef cf       	rjmp	.-34     	; 0x74 <main+0x8>
+  96:	83 34       	cpi	r24, 0x43	; 67
+  98:	39 f0       	breq	.+14     	; 0xa8 <main+0x3c>
+  9a:	84 34       	cpi	r24, 0x44	; 68
+  9c:	39 f0       	breq	.+14     	; 0xac <main+0x40>
+  9e:	ea cf       	rjmp	.-44     	; 0x74 <main+0x8>
+		case 'A':SET_BIT(PORTC,0);
+  a0:	a8 9a       	sbi	0x15, 0	; 21
+		break;
+  a2:	e8 cf       	rjmp	.-48     	; 0x74 <main+0x8>
+		case 'B':CLEAR_BIT(PORTC,0);
+  a4:	a8 98       	cbi	0x15, 0	; 21
+		break;
+  a6:	e6 cf       	rjmp	.-52     	; 0x74 <main+0x8>
+		case 'C':SET_BIT(PORTC,1);
+  a8:	a9 9a       	sbi	0x15, 1	; 21
+	    break;
+  aa:	e4 cf       	rjmp	.-56     	; 0x74 <main+0x8>
+		case 'D':CLEAR_BIT(PORTC,1);
+  ac:	a9 98       	cbi	0x15, 1	; 21
+		break;
+  ae:	e2 cf       	rjmp	.-60     	; 0x74 <main+0x8>
+
+000000b0 <SPI_Init>:
+#include "BITMATH.h"
+#include "SPI.h"
+#include <avr/io.h>
+void SPI_Init(){
+	
+	DDRB|=(1<<MISO);
+  b0:	be 9a       	sbi	0x17, 6	; 23
+	DDRB&=~(1<<SS); //input pin
+  b2:	bc 98       	cbi	0x17, 4	; 23
+	SPCR|=(1<<SPE);
+  b4:	6e 9a       	sbi	0x0d, 6	; 13
+  b6:	08 95       	ret
+
+000000b8 <SPI_Recive>:
+	
+}
+unsigned char SPI_Recive(){
+	
+	//SPDR =sendByte;
+	while(!(SPSR&(1<<SPIF)));
+  b8:	77 9b       	sbis	0x0e, 7	; 14
+  ba:	fe cf       	rjmp	.-4      	; 0xb8 <SPI_Recive>
+	return SPDR;
+  bc:	8f b1       	in	r24, 0x0f	; 15
+}
+  be:	08 95       	ret
+
+000000c0 <_exit>:
+  c0:	f8 94       	cli
+
+000000c2 <__stop_program>:
+  c2:	ff cf       	rjmp	.-2      	; 0xc2 <__stop_program>
